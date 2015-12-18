@@ -1,0 +1,26 @@
+body {
+    background-color: #55716F;
+
+    // font-family: 'Lato', sans-serif;
+    font-family: 'Metrophobic', sans-serif;
+
+    #dungeon {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+
+        .row {
+            display: flex;
+            justify-content: space-around;
+
+            .cell {
+                background-color: #aaa;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+
+            }
+        }
+    }
+}

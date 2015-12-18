@@ -1,0 +1,154 @@
+
+MAKIN' A GAME
+=============
+
+The idea I have now goes like this:
+
+This is a game about magic; about casting spells in order to acheive your
+goals.
+
+I want to whole thing to feel like a series of fun puzzles, each different due
+to random dungeon generation and the random spawning of monsters and items.
+
+
+Game Mechanics
+==============
+
+My current ideas about how various parts of the game are meant to work.
+
+
+Magic
+-----
+
+Individual spells require varying amounts of the different types of mana
+available.  For example, throwing a fireball might require 2 Fire mana (to
+generate the fireball itself), and 1 Air Mana (for propelling it through the
+air.)  Perhaps the player can tailor their own spells by changing how much of
+each mana they put into it, changing the effectiveness of the associated
+properties of the spell.  In the above example, using 4 points of Fire instead of 2
+would make it twice as hot, burning enemies for twice as long, while
+increasing the Air mana usage could propel it faster, making the initial
+impact more effective.
+
+
+Mana
+----
+
+Mana is what powers magic.  It is drawn from the environment.  Air is nearly
+always available, so long as you're breathing.  Water is available if you are
+near a a pool or stream, and the closer you are and the more water there is,
+the more mana you can summon, and the faster you can do it.  Drawing mana from
+the environment doesn't consume things (but maybe it optionally *could*, for a
+boost?)  This means that the spells at your command depend on the particulars
+of your surroundings at the time you want to cast.
+
+To enforce this, there isn't a significant Mana pool the player carries around
+with them.  Each time you want to cast a spell, you must first draw in the
+power to do so from the environment around you.  Mana you've built up
+drains away if unused, only slightly more slowly than it took to draw it in
+in the first place.
+
+But unused mana doesn't entirely deplete itself.  The player can be left with
+a small amount of mana available for instant spellcasting -- AKA Evocation.
+This is never very large, however, and significant spells will always take a
+short time to prepare.
+
+
+Mana Types
+----------
+
+For lack of anything better at the moment, let's go with the old standard:
+
+    * Fire
+    Control temperature.  Create heat, or *remove* heat.
+
+    * Water
+    Condense water out of the air.
+
+    * Air
+    Moves things through otherwise empty space.
+
+    * Earth
+    Reshape available dirt and stone into forms you want.
+
+    * Spirit
+    * Mind
+
+
+Example Spells
+--------------
+
+When coming up with these, think less about combat-oriented ideas, and more
+general puzzle-solving things (some of which may involve combat)
+
+Also, consider different ideas for base elements.  Not necessarily Earth Wind
+Air Fire.  Gravity, Electricity.. ?  These are to be types of energy, after
+all..
+
+### EaWiAiFi school
+
+Combinations of Earth, Air, Wind, and Fire
+
+Fireball
+    2 Fire
+    1 Air
+
+    Hurls a mass of fire
+
+Wall
+    2 Earth
+
+    Creates a shield of stone
+
+Pool
+    2 Water
+
+    Forms a pool of water, impairing the ability of most enemies to fight
+    effectively.
+
+Freeze
+    1 Fire
+
+    Turn a moderate mass of water into ice.  Enemies fighting on ice are at a
+    disadvantage (more so than on water), and may fall to the ground.
+
+Heal
+    2 Spirit
+    1 Water
+
+    Recover from wounds.
+
+Levitate
+    2 Air
+
+
+I kind of envision the player acquiring access to various spells as the
+game progresses, each of which does various puzzle-like things to the
+surroundings, and to the monsters.  The challenges thrown at the player are
+all solvable in various ways, depending on spells and perhaps equipment
+available.  Keep it simple at first, so progress can continue to be made on
+development.
+
+Say a monster is coming down the hall at a player with his back to a door.
+He can open the door, kill the monster, contain or incapacitate the
+monster, teleport himself..
+
+The environment should affect choice.  Maybe, like, water spells have a
+chance of working based on proximity to water.  If a stream or pool is
+nearby, then freezing the ground under the monster causes a greater to-hit
+penalty and movement reduction.  Etc.
+
+How about:  Standard 4 elements.  When entering combat, you begin 'drawing
+in' your magical power - it's like mana, but with a much lower max, and a
+much higher regen rate.  And a separate mana pool for each element.  An
+individual spell requires various amounts of mana from each element.  So
+your tactics change depending on what's around you (if standing next to a
+pool of water, then you can summon a lot of 'water' mana and power a lot of
+spells that use it.)
+
+Earth
+Wind
+Air
+Fire
+Spirit?  --+-- not enviroment-dependent?
+Mind?    --+
