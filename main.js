@@ -1,11 +1,18 @@
+"use strict";
 
-window.retval = requirejs(["dungeon.js"], function() {
+requirejs(["dungeon.js", "player.js"], function() {
 
     var dungeon = new Dungeon("#dungeon", {
-        mode: "html",
+        height: 5,
+        width: 5
     });
+
+    var player = new Player({
+        name: "Smithee",
+        icon: "player_icon.svg"
+    });
+
+    window.dungeon = dungeon;
 
 });
 
-// export for debugging
-window.dungeon = dungeon

@@ -1,3 +1,11 @@
+TODO
+====
+
+* Make the dungeon size easily settable via a single value, scaling the rest
+  accordingly.
+
+----------------
+
 
 MAKIN' A GAME
 =============
@@ -10,6 +18,8 @@ goals.
 I want to whole thing to feel like a series of fun puzzles, each different due
 to random dungeon generation and the random spawning of monsters and items.
 
+I'm not sure I can say it's strictly "inspired by", but I have been reading a
+lot of Dresden Files lately..
 
 Game Mechanics
 ==============
@@ -84,6 +94,21 @@ general puzzle-solving things (some of which may involve combat)
 Also, consider different ideas for base elements.  Not necessarily Earth Wind
 Air Fire.  Gravity, Electricity.. ?  These are to be types of energy, after
 all..
+
+Example Items
+-------------
+
+### Kinetic Ring
+
+Cast a force bolt spell for free.  Must be 'charged' by storing
+a piece of the kinetic energy every time it moves.  Effectiveness of the spell
+cast depends on how much the player has done *while wearing the ring* since it
+was last used.  Two kinds - regular force ring stores one spell, as described.
+Improved force ring stores the ability to fire multiple spells, but charges
+correspondingly more slowly.
+
+
+---
 
 ### EaWiAiFi school
 
