@@ -131,3 +131,8 @@ Dungeon.prototype.setTile = function(value, x, y) {
 
     my.render();
 }
+
+// Aliases for placing something in a dungeon square
+Dungeon.prototype.place = Dungeon.prototype.setTile;
+Dungeon.prototype.assign = Dungeon.prototype.setTile;
+Dungeon.prototype.set = Dungeon.prototype.setTile;
