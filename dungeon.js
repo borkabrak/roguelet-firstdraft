@@ -6,12 +6,12 @@
 /*
  * Dungeon()
  *
- * At its most basic, this just implements a smart list of tiles, numerically
- * indexed, containing any sort of value that it can make sense to display.
- *
- * Accessing the value of a particular dungeon tile is simple:
+ * The dungeon's contents can be accessed via numerical indeces on the dungeon
+ * object itself.  For example:
  *
  *      dungeon[x][y]
+ *
+ * is an array of everything that currently exists at that location in the dungeon
  *
  * Parameters:
  *
@@ -39,10 +39,10 @@
 */
 var Dungeon = function(container, config) {
     var my = this;
-    config = (typeof config !== "undefined") ? config : {
+    my.config = jdc.makeconfig(config, {
         height: 10,
         width:  10,
-    };
+    });
 
     // Properties
     my.container = (
@@ -52,12 +52,8 @@ var Dungeon = function(container, config) {
         container
     );
 
-    // Set properties - from config provided, or reasonable defaults
-    my.height = config.height;
-    my.width = config.width;
-
     // Set tile values as numeric indeces on 'this'
-    my.initialize_tiles();
+    my.initialize();
 
     my.render();
 
@@ -70,8 +66,8 @@ var Dungeon = function(container, config) {
 //
 // It does so by calling a method on the value.  It calls, in order:
 //
-//  * toString()
 //  * render()
+//  * toString()
 //
 //  It is the responsibility of the value to provide one of these means of
 //  displaying itself, by returning HTML (possibly just a simple string) to do
@@ -79,60 +75,99 @@ var Dungeon = function(container, config) {
 Dungeon.prototype.render = function() {
     var my = this;
 
+    // Clear the board first
     my.container.innerHTML = "";
 
-    for(var y=0; y < my.height; y++) {
+    // Now for each row..
+    for(var y=0; y < my.config.height; y++) {
 
+        // Get the array of row contents
         var rowData = my[y];
 
+        // Create an HTML element for the row
         var row = document.createElement("div");
         row.setAttribute("class", "row");
+
+        // For each cell in the row..
         rowData.forEach(function(cellData) {
+
+            // Create an HTML element for the cell
             var cell = document.createElement("div");
             cell.setAttribute("class", "cell");
 
-            if (cellData.toString) {
-                cell.innerHTML = cellData.toString()
-            } else if (cellData.render) {
-                cell.innerHTML = cellData.render()
-            } else {
-                cell.innerHTML = "?"
-                console.error("ERROR: Cannot display %o at dungeon cell %o", cellData, cell);
-            }
+            // Select what to show out of all the items that exist at the cell.
+            var cellItem = getTopItem(cellData);
 
+            // Decide how to get the content to show itself
+            cell.innerHTML = function(cellItem){
+
+                // Does it respond to render()?
+                if (cellItem.render) return cellItem.render()
+
+                // How about toString()?
+                if (cellItem.toString) return cellItem.toString()
+
+                // Give up -- we don't know how to show this content.
+                console.error("ERROR: Cannot display %o at dungeon cell %o", cellItem, cell);
+                return "?"
+
+            }(cellItem);
+            
+            // Attach the cell HTML element to the row
             row.appendChild(cell);
+
         });
+
+        // Attach the HTML row to the DOM.
         my.container.appendChild(row);
 
     };
 
 }
 
-// Set numeric properties on the object, allowing a dungeon tile to be
-// accessed like this:
+// Set numeric properties on the object, allowing the contents of a dungeon
+// tile to be accessed like this:
 //
 //      dungeon[row][column]
 //
-Dungeon.prototype.initialize_tiles = function() {
+// Each cell's value is an array of all the things that exist there.
+Dungeon.prototype.initialize = function() {
     var my = this;
 
-    for (var y = 0; y < my.height; y++) {
-        my[y] = [];
-        for (var x = 0; x < my.width; x++) {
-            my[y][x] = ".";
+    for (var x = 0; x < my.config.width; x++) {
+        my[x] = [];
+        for (var y = 0; y < my.config.width; y++) {
+            my[x][y] = [];
         }
     }
 }
 
-Dungeon.prototype.setTile = function(value, x, y) {
+Dungeon.prototype.place = function(value, x, y) {
     var my = this;
-
-    my[y][x] = value;
-
+    my[x][y].push(value);
     my.render();
 }
 
-// Aliases for placing something in a dungeon square
-Dungeon.prototype.place = Dungeon.prototype.setTile;
-Dungeon.prototype.assign = Dungeon.prototype.setTile;
-Dungeon.prototype.set = Dungeon.prototype.setTile;
+// Move <object> towards <direction>
+Dungeon.prototype.move = function(object, direction) {
+}
+
+// Aliases
+//     for placing something in a dungeon square
+Dungeon.prototype.assign = Dungeon.prototype.place;
+Dungeon.prototype.set = Dungeon.prototype.place;
+
+// Select what to show out of all the items that exist at the cell.
+function getTopItem(itemArray) {
+   
+    var retval;
+
+    if (itemArray.length < 1) { 
+        retval = "." 
+    } else {
+        retval = itemArray[0]
+    }
+
+    return retval;
+
+}
