@@ -6,13 +6,6 @@
 /*
  * Dungeon()
  *
- * The dungeon's contents can be accessed via numerical indeces on the dungeon
- * object itself.  For example:
- *
- *      dungeon[x][y]
- *
- * is an array of everything that currently exists at that location in the dungeon
- *
  * Parameters:
  *
  *  container
@@ -30,21 +23,21 @@
  *          number of cells tall
  *
  *
- * PROPERTIES
- *
- *  numerical indeces represent locations in the dungeon.  So, if dungeon is an
- *  instance of Dungeon, the top left tile is at dungeon[0][0];
- *
- *
+ *  at()                                         get an array of the contents at a location
+ *  toHTML()                                     return HTML element containg the current dungeon
+ *  remove(object | location)                    remove an object from whereever it is in the dungeon, or remove everything at the given location.
+ *  put(object, location)                        Store <object> in dungeon at <location>
+ *  move(object, location)                       Move <object> from whereever it is to <location>
+ *  moveUp/moveDown/moveLeft/moveRight(object)   Move <object> from whereever it is one space in the given direction.
 */
 var Dungeon = function(container, config) {
     var my = this;
+
     my.config = jdc.makeconfig(config, {
-        height: 10,
-        width:  10,
+        height: 5,
+        width:  5,
     });
 
-    // Properties
     my.container = (
         // container can be a selector string
         typeof container === "string" ?
@@ -52,122 +45,80 @@ var Dungeon = function(container, config) {
         container
     );
 
-    // Set tile values as numeric indeces on 'this'
-    my.initialize();
-
-    my.render();
+    my.contents = my.initialize_contents();
 
 }
 
-// Render the dungeon visually
-//
-// This should handle displaying whatever value is at each numerical index of
-// the dungeon, whether a character, a Player object, or what.
-//
-// It does so by calling a method on the value.  It calls, in order:
-//
-//  * render()
-//  * toString()
-//
-//  It is the responsibility of the value to provide one of these means of
-//  displaying itself, by returning HTML (possibly just a simple string) to do
-//  so.
-Dungeon.prototype.render = function() {
+Dungeon.prototype.put = function(object, location) {
+    var my = this;
+}
+
+Dungeon.prototype.toHTML = function() {
     var my = this;
 
-    // Clear the board first
-    my.container.innerHTML = "";
+    var container = document.createElement("div");
 
-    // Now for each row..
-    for(var y=0; y < my.config.height; y++) {
-
-        // Get the array of row contents
-        var rowData = my[y];
-
-        // Create an HTML element for the row
+    for(var y = 0; y < my.config.width; y++) {
         var row = document.createElement("div");
-        row.setAttribute("class", "row");
+        row.setAttribute("class", "dungeon-row");
 
-        // For each cell in the row..
-        rowData.forEach(function(cellData) {
-
-            // Create an HTML element for the cell
+        for(var x = 0; x < my.config.height; x++) {
             var cell = document.createElement("div");
-            cell.setAttribute("class", "cell");
+            cell.setAttribute("class", "dungeon-cell");
+            cell.style.height = (36 / my.config.height).toString() + "em";
 
-            // Select what to show out of all the items that exist at the cell.
-            var cellItem = getTopItem(cellData);
+            // Get the contents at the current location
+            cell.innerHTML = show(my.contents[x][y]);
 
-            // Decide how to get the content to show itself
-            cell.innerHTML = function(cellItem){
-
-                // Does it respond to render()?
-                if (cellItem.render) return cellItem.render()
-
-                // How about toString()?
-                if (cellItem.toString) return cellItem.toString()
-
-                // Give up -- we don't know how to show this content.
-                console.error("ERROR: Cannot display %o at dungeon cell %o", cellItem, cell);
-                return "?"
-
-            }(cellItem);
-            
-            // Attach the cell HTML element to the row
             row.appendChild(cell);
-
-        });
-
-        // Attach the HTML row to the DOM.
-        my.container.appendChild(row);
-
-    };
-
-}
-
-// Set numeric properties on the object, allowing the contents of a dungeon
-// tile to be accessed like this:
-//
-//      dungeon[row][column]
-//
-// Each cell's value is an array of all the things that exist there.
-Dungeon.prototype.initialize = function() {
-    var my = this;
-
-    for (var x = 0; x < my.config.width; x++) {
-        my[x] = [];
-        for (var y = 0; y < my.config.width; y++) {
-            my[x][y] = [];
         }
+        container.appendChild(row);
     }
+
+    return container;
 }
 
-Dungeon.prototype.place = function(value, x, y) {
+// Return an array representing an empty dungeon
+// Elements in the dungeon should be addressable like:
+//   contents[x][y];
+//
+// Where x is the horizontal distance from the origin (top left), and y is the
+// vertical distance.
+//
+// The value at each location is an array of everything that exists in the dungeon at that location.
+// If the location is empty, then its value is an empty array.
+Dungeon.prototype.initialize_contents = function() {
     var my = this;
-    my[x][y].push(value);
-    my.render();
+
+    return jdc.seq(my.config.width).map(function() {
+        return jdc.seq(my.config.height).map(function(){
+            return []
+        })
+    })
 }
 
-// Move <object> towards <direction>
-Dungeon.prototype.move = function(object, direction) {
-}
+// show
+//  Show what exists at a particular location in the dungeon.
+//
+//  Input: an array of objects at the location
+//
+//  * Select what object among the contents should be displayed (Show entities instead of items on the floor, etc.)
+//  * For the selected object, try to get it to show itself.  Otherwise, do our best to create HTML for it.
+function show(contents) {
 
-// Aliases
-//     for placing something in a dungeon square
-Dungeon.prototype.assign = Dungeon.prototype.place;
-Dungeon.prototype.set = Dungeon.prototype.place;
-
-// Select what to show out of all the items that exist at the cell.
-function getTopItem(itemArray) {
-   
-    var retval;
-
-    if (itemArray.length < 1) { 
-        retval = "." 
-    } else {
-        retval = itemArray[0]
+    if (contents.length === 0) {
+        return " ";
     }
 
-    return retval;
+    // Determine what should be shown
+    // (For now, just show the first item)
+    var topitem = contents[0];
+
+    if (topitem.toHTML) return topitem.toHTML();
+    if (topitem.render) return topitem.render();
+    if (topitem.toString()) return topitem.toString();
+
+    console.log("Can't show object: %o", topitem);
+    return '?';
 
 }

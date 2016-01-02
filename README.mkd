@@ -177,3 +177,13 @@ Air
 Fire
 Spirit?  --+-- not enviroment-dependent?
 Mind?    --+
+
+dungeon interface
+
+    at()                                         get an array of the contents at a location
+    render()                                     return HTML element containg the current dungeon
+    remove(object | location)                    remove an object from whereever it is in the dungeon, or remove everything at the given location.
+    put(object, location)                        Store <object> in dungeon at <location>
+    move(object, location)                       Move <object> from whereever it is to <location>
+    moveUp/moveDown/moveLeft/moveRight(object)   Move <object> from whereever it is one space in the given direction.
+

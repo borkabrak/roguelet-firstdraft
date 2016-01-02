@@ -6,7 +6,7 @@ var Player = function(config) {
     // Specify defaults
     my.config = jdc.makeconfig(config, {
         name: "Default Name",
-        icon: "default.png"
+        icon: "person.svg"
     });
 
 }
