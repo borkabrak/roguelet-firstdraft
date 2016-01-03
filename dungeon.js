@@ -38,19 +38,67 @@ var Dungeon = function(container, config) {
         width:  5,
     });
 
-    my.container = (
-        // container can be a selector string
-        typeof container === "string" ?
-        document.querySelector(container) :
-        container
-    );
+    // Set container
+    if (typeof container === "string") {
+        // given container is a selector string
+        my.container = document.querySelector(container)
+    } else if (typeof container === "undefined") {
+        // Container not given - let it be specifiable on the config
+        my.container = my.config.container;
+    } else {
+        // Assume that the container given is the HTML element itself
+        my.container = container;
+    }
 
+    // Set contents to an empty dungeon
     my.contents = my.initialize_contents();
+
+    return my;
 
 }
 
-Dungeon.prototype.put = function(object, location) {
+Dungeon.prototype.put = function(object, arg2, arg3) {
+    var x, y, my = this;
+
+    /* Use cases:
+            put(object, location)
+        Where location contains the x and y properties defining the location
+
+        OR
+
+            put(object, x, y)
+        Where the x and y properties are separately provided
+    */
+
+    if (typeof arg2.x !== "undefined" && typeof arg2.y !== "undefined") {
+        // arg2 has both x and y properties
+        x = arg2.x, y = arg2.y;
+
+    } else if (typeof arg2 === "number" && typeof arg3 === "number"){
+        // arg2 and arg3 are both numbers.  Use them as x and y, respectively.
+        x = arg2;
+        y = arg3;
+
+    } else {
+        console.log("Don't know how to interpret arguments in put(%o)", arguments);
+        x = 0, y = 0;
+
+    }
+
+    my.contents[x][y].push(object);
+
+    my.render();
+
+    return my;
+}
+
+Dungeon.prototype.render = function() {
     var my = this;
+
+    my.container.innerHTML = "";
+    my.container.appendChild(my.toHTML());
+
+    return my;
 }
 
 Dungeon.prototype.toHTML = function() {

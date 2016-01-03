@@ -5,9 +5,7 @@ requirejs([
     "dungeon.js",
 ], function() {
 
-    var dungeon = new Dungeon();
-
-    document.getElementById("dungeon").appendChild(dungeon.toHTML());
+    var dungeon = new Dungeon("#dungeon").render();
 
     // Debugging facilitators
     window.dungeon = dungeon;
