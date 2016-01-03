@@ -4,15 +4,15 @@ body {
     font-family: 'Metrophobic', sans-serif;
 
     #dungeon {
-        background-color: rgb(128, 128, 128);
 
         .dungeon-row {
             display: flex;
 
             .dungeon-cell{
                 border: solid #777;
-                // background-image: url(images/stone.jpg);
-                width: 100%;
+                background-color: rgb(128, 128, 128);
+                width: 5em;
+                height: 5em;
             }
         }
     }

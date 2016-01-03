@@ -10,7 +10,6 @@ var Cell = function(contents) {
 
     my.container = document.createElement("div");
     my.container.setAttribute("class", "dungeon-cell");
-    my.container.style.height = "12em";
 
     // Set contents
     if (typeof contents === "undefined") {

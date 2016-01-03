@@ -6,23 +6,6 @@
 /*
  * Dungeon()
  *
- * Parameters:
- *
- *  container
- *      the HTML element (or selector) within which to place the dungeon
- *
- *  config
- *      An object determining aspects of the dungeon.
- *
- *      Recognized keys [default value]:
- *
- *        width: [10]
- *          number of cells across
- *
- *        height: [10]
- *          number of cells tall
- *
- *
  *  at()                                         get an array of the contents at a location
  *  toHTML()                                     return HTML element containg the current dungeon
  *  remove(object | location)                    remove an object from whereever it is in the dungeon, or remove everything at the given location.
@@ -34,8 +17,8 @@ var Dungeon = function(container, config) {
     var my = this;
 
     my.config = jdc.makeconfig(config, {
-        height: 5,
-        width:  5,
+        height: 3,
+        width:  3,
     });
 
     // Set container
