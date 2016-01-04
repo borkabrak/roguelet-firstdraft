@@ -1,5 +1,5 @@
 default:
-	scss --sourcemap=none jgame.scss:jgame.css
+	sass --scss --sourcemap=none jgame.scss:jgame.css
 
 build: default
 
