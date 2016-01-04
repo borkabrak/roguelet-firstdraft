@@ -1,8 +1,17 @@
 /**
- * Represents a dungeon cell
- *
- * Tracks all the objects currently at the cell, and handles displaying them properly
- */
+Cell()
+    Represents a dungeon cell
+
+API
+===
+push(object) - Add an object to the cell
+toHTML() - return an HTML representation (not text) of the cell
+remove(object) - remove the given object from the cell
+contains(object) - return true iff object exists in the cell, false otherwise
+empty() - Remove everything in the cell, leaving it empty
+clear() - Alias for empty()
+
+*/
 "use strict";
 
 var Cell = function(contents) {
@@ -25,18 +34,61 @@ var Cell = function(contents) {
 
 }
 
+/*
+push(object)
+    Add object to cell
+*/
 Cell.prototype.push = function(object) {
     var my = this;
-    my.contents.push(object)
+    return my.contents.push(object)
 }
 
-// toHTML
-//  Return contents as some HTML*element
-//
-//  * Select what object among the contents should be displayed (Show entities instead of items on the floor, etc.)
-//  * For the selected object, try to get it to show itself.  Otherwise, do our best to create HTML for it.
+/*
+toHTML
+    Return contents as some HTML*element
+*/
 Cell.prototype.toHTML = function() {
     var my = this;
     my.container.innerText = my.contents.join(",");
     return my.container;
 }
+
+/*
+ remove(object)
+    remove the given object from the cell
+*/
+Cell.prototype.remove = function(object) {
+    var my = this;
+
+    var index = my.contents.indexOf(object)
+    if (index >= 0) {
+        return my.contents.splice(index,1)
+    } else {
+        return null;
+    }
+
+}
+
+/*
+ contains(object)
+    Return true iff the cell contains the given object, false otherwise
+*/
+Cell.prototype.contains = function(object) {
+    var my = this;
+    return my.contents.indexOf(object) !== -1
+}
+
+/*
+empty()
+    Remove everything in the cell, leaving it empty
+*/
+Cell.prototype.empty = function() {
+    var my = this;
+    return my.contents = [];
+}
+
+/*
+clear()
+    Alias for empty()
+*/
+Cell.prototype.clear = Cell.prototype.empty;
