@@ -20,6 +20,7 @@ moveUp/moveDown/moveLeft/moveRight(object)   Move <object> from whereever it is 
 "use strict";
 var Dungeon = function(container, config) {
     var my = this;
+    my.classname = "Dungeon";
 
     my.config = jdc.makeconfig(config, {
         height: 3,
