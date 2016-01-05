@@ -178,11 +178,41 @@ Dungeon.prototype.removeFrom = function(x, y) {
 
 /*
 move(object, location)
-    move object to location
+    move object to location.x, location.y
+
+move(object, x, y)
+    move object to x, y
+
+move(object, direction)
+    move object one space in the specified direction
+    directions take the form "up", "left", "down-right", etc.
+
 */
 Dungeon.prototype.move = function(object, x, y) {
     var my = this;
+
+    // if the given location is a single string, interpret it as a direction.
+    if (typeof x === "string" && typeof y === "undefined") {
+
+        var current_position = my.locate(object);
+        var direction = x;
+
+        x = current_position.y + function() {
+            if (/left/.test(direction)) return -1;
+            if (/right/.test(direction)) return +1;
+            return 0;
+        }()
+
+        // flow control deliberately continues here, to allow combination
+        // directions such as "up-right".
+
+        y = current_position.x + function() {
+            if (/up/.test(direction)) return -1;
+            if (/down/.test(direction)) return +1;
+            return 0;
+        }()
+
+    }
     return my.remove(object) ? my.put(object, x, y) : undefined;
 
 }
-
