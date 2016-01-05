@@ -11,6 +11,7 @@ Player() - create and return a new player
 
 var Player = function(config) {
     var my = this;
+    my.classname = "Player";
 
     // Specify defaults
     my.config = jdc.makeconfig(config, {
