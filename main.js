@@ -1,7 +1,7 @@
 "use strict";
 
 requirejs([
-    "script/jdc-utils.js",
+    "jdc-utils.js",
     "cell.js",
     "dungeon.js",
 ], function() {
