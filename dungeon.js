@@ -103,11 +103,11 @@ Dungeon.prototype.toHTML = function() {
 
     var container = document.createElement("div");
 
-    for(var y = 0; y < my.config.width; y++) {
+    for(var y = 0; y < my.config.height; y++) {
         var row = document.createElement("div");
         row.setAttribute("class", "dungeon-row");
 
-        for(var x = 0; x < my.config.height; x++) {
+        for(var x = 0; x < my.config.width; x++) {
 
             row.appendChild(my.contents[x][y].toHTML());
 
