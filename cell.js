@@ -17,9 +17,6 @@ clear() - Alias for empty()
 var Cell = function(contents) {
     var my = this;
 
-    my.container = document.createElement("div");
-    my.container.setAttribute("class", "dungeon-cell");
-
     // Set contents
     if (typeof contents === "undefined") {
         // If nothing given, use empty array
@@ -49,6 +46,9 @@ toHTML
 */
 Cell.prototype.toHTML = function() {
     var my = this;
+
+    my.container = document.createElement("div");
+    my.container.setAttribute("class", "dungeon-cell");
 
     // Decide what, among the contents, should be shown
     var visibleitem = "";
