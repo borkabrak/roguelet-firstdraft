@@ -16,6 +16,7 @@ clear() - Alias for empty()
 
 var Cell = function(contents) {
     var my = this;
+    my.classname = "Cell";
 
     // Set contents
     if (typeof contents === "undefined") {
@@ -110,3 +111,12 @@ clear()
     Alias for empty()
 */
 Cell.prototype.clear = Cell.prototype.empty;
+
+/*
+toString()
+    return a string representation of the cell
+*/
+Cell.prototype.toString = function() {
+    var my = this;
+    return my.classname + "[" + my.contents.join(",") + "]"
+}
