@@ -49,7 +49,25 @@ toHTML
 */
 Cell.prototype.toHTML = function() {
     var my = this;
-    my.container.innerText = my.contents.join(",");
+
+    // Decide what, among the contents, should be shown
+    var visibleitem = "";
+    if (my.contents.length > 0) {
+        var visibleitem = my.contents[0];
+    }
+
+    // Now we've got *what* to show, decide *how* to show it
+    var output = "";
+    if (visibleitem.toHTML) {
+        output = visibleitem.toHTML()
+
+    } else if (visibleitem.toString) {
+        output = document.createElement("p");
+        output.innerText = visibleitem.toString();
+
+    };
+
+    my.container.appendChild(output);
     return my.container;
 }
 

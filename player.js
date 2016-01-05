@@ -1,3 +1,12 @@
+/*
+Player
+
+API
+===
+
+Player() - create and return a new player
+
+*/
 "use strict";
 
 var Player = function(config) {
@@ -5,18 +14,33 @@ var Player = function(config) {
 
     // Specify defaults
     my.config = jdc.makeconfig(config, {
-        name: "Default Name",
-        icon: "person.svg"
+        name: "Biff?",
+        icon: "images/person.svg"
     });
 
 }
 
-Player.prototype.render = function() {
-    var my = this;
-    return "<img src='" + my.config.icon + "'>";
-}
-
+/*
+toString - return a string representation of the player
+*/
 Player.prototype.toString = function() {
     var my = this;
-    return  my.name;
+    return my.config.name;
 }
+
+/*
+toHTML - return an HTML object representing the player
+*/
+Player.prototype.toHTML = function() {
+    var my = this;
+
+    var img = document.createElement("img");
+    img.setAttribute("src", my.config.icon);
+
+    my.container = document.createElement("div");
+    my.container.setAttribute("class", "player");
+    my.container.appendChild(img);
+    return my.container;
+
+}
+
