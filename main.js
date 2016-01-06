@@ -5,12 +5,12 @@ requirejs([
     "cell.js",
     "dungeon.js",
     "player.js",
+    "messages.js",
 ], function() {
 
     var dungeon = new Dungeon("#dungeon");
     var player = new Player();
-    dungeon.put(player,0,0);
-    dungeon.render();
+    var msg = new Messages("#messages");
 
     // Attach events to respond to commands
     attachEvents({
@@ -31,12 +31,6 @@ requirejs([
         },
     });
 
-    // Debugging/testing
-    window.dungeon = dungeon;
-    window.show = function() { dungeon.render() };
-    window.r = window.show;
-    window.player = player;
-
     function attachEvents(keymap) {
         document.addEventListener("keypress", function(event) {
             if (keymap[event.key]) {
@@ -45,5 +39,16 @@ requirejs([
             dungeon.render();
         });
     }
+
+    dungeon.put(player,0,0);
+    dungeon.render();
+
+    // Debugging/testing
+    window.dungeon = dungeon;
+    window.show = function() { dungeon.render() };
+    window.r = window.show;
+    window.player = player;
+    window.msg = msg;
+
 });
 

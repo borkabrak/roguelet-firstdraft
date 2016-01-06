@@ -3,22 +3,44 @@ body {
 
     font-family: Raleway, sans-serif;
 
-    #dungeon {
 
-        .dungeon-row {
-            display: flex;
 
-            .dungeon-cell{
-                border: solid #777;
-                background-color: rgb(128, 128, 128);
-                width: 5em;
-                height: 5em;
-                padding: 1em;
+    #playarea {
+        display: flex;
 
-                .player img {
-                    width: 100%;
+        #dungeon {
+
+            .dungeon-row {
+                display: flex;
+
+                .dungeon-cell{
+                    border: solid #777;
+                    background-color: rgb(128, 128, 128);
+                    width: 5em;
+                    height: 5em;
+                    padding: 1em;
+
+                    .player img {
+                        width: 100%;
+                    }
                 }
             }
         }
+
+        #messages {
+            opacity: 0.8;
+            background-color: #333;
+            border: solid #C0B737 1px;
+            border-radius: 1em;
+            width: 40%;
+
+            padding: 5%;
+
+            font-family: Raleway, monospace;
+            color: whitesmoke;
+
+        }
+
     }
+
 }

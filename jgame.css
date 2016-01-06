@@ -1,13 +1,24 @@
 body {
   background-color: #55716F;
   font-family: Raleway, sans-serif; }
-  body #dungeon .dungeon-row {
+  body #playarea {
     display: flex; }
-    body #dungeon .dungeon-row .dungeon-cell {
-      border: solid #777;
-      background-color: gray;
-      width: 5em;
-      height: 5em;
-      padding: 1em; }
-      body #dungeon .dungeon-row .dungeon-cell .player img {
-        width: 100%; }
+    body #playarea #dungeon .dungeon-row {
+      display: flex; }
+      body #playarea #dungeon .dungeon-row .dungeon-cell {
+        border: solid #777;
+        background-color: gray;
+        width: 5em;
+        height: 5em;
+        padding: 1em; }
+        body #playarea #dungeon .dungeon-row .dungeon-cell .player img {
+          width: 100%; }
+    body #playarea #messages {
+      opacity: 0.8;
+      background-color: #333;
+      border: solid #C0B737 1px;
+      border-radius: 1em;
+      width: 40%;
+      padding: 5%;
+      font-family: Raleway, monospace;
+      color: whitesmoke; }
