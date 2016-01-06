@@ -39,10 +39,6 @@ requirejs([
 
     function attachEvents(keymap) {
         document.addEventListener("keypress", function(event) {
-            console.log("key pressed: %o", event);
-            console.log("keymap: %o", keymap);
-            console.log("key: %o", event.key);
-            console.log("command: %o", keymap[event.key]);
             keymap[event.key].call(window);
             dungeon.render();
         });

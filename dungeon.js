@@ -196,26 +196,27 @@ Dungeon.prototype.move = function(object, x, y) {
 
         var current_position = my.locate(object);
         var direction = x;
-        console.log("Moving %o in direction %o from %o", object, x, current_position);
 
         x = current_position.x + function() {
-            if (/left/.test(direction)) return -1;
-            if (/right/.test(direction)) return +1;
+            if (/left/.test(direction))  return -1;
+            if (/right/.test(direction)) return  1;
             return 0;
         }()
 
-        // flow control deliberately continues here, to allow combination
-        // directions such as "up-right".
-
         y = current_position.y + function() {
-            if (/up/.test(direction)) return -1;
-            if (/down/.test(direction)) return +1;
+            if (/up/.test(direction))   return -1;
+            if (/down/.test(direction)) return  1;
             return 0;
         }()
 
     }
 
-    console.log("moving to %o", {x: x, y: y});
+    // Adjust for out-of-bounds attempted moves
+    if (x < 0) x = 0;
+    if (x >= my.config.width) x = my.config.width - 1;
+    if (y < 0) y = 0;
+    if (y >= my.config.height) y = my.config.height - 1;
+
     return my.remove(object) ? my.put(object, x, y) : undefined;
 
 }
