@@ -39,7 +39,9 @@ requirejs([
 
     function attachEvents(keymap) {
         document.addEventListener("keypress", function(event) {
-            keymap[event.key].call(window);
+            if (keymap[event.key]) {
+                keymap[event.key].call(window);
+            }
             dungeon.render();
         });
     }
