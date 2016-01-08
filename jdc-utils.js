@@ -78,33 +78,6 @@ var jdc = {
         return range;
     },
 
-    /*
-    normalizePosition()
-        Allow flexible expression of a dungeon location either as a single
-        object with x and y properties, or as two values indicating x and y
-        separately.
-
-        Returns one object with corresponding x and y properties.
-    */
-    normalizePosition: function(arg1, arg2) {
-
-        if (typeof arg1 === "undefined") { return { x: undefined, y: undefined} }
-
-        if (typeof arg1.x !== "undefined" && typeof arg1.y !== "undefined") {
-            // arg1 has both x and y properties
-            return { x: arg1.x, y: arg1.y };
-        }
-
-        if (typeof arg1 === "number" && typeof arg2 === "number"){
-            // arg1 and arg2 are both numbers.  Use them as x and y, respectively.
-            return { x: arg1, y: arg2 }
-        }
-
-        console.error("normalizePosition(): I Don't know how to interpret these arguments as dungeon coordinates: (%o, %o)", arg1, arg2);
-        return null;
-
-    },
-
     defined: function(arg) {
         return (typeof arg !== "undefined")
     },
@@ -123,4 +96,8 @@ var jdc = {
     },
 }
 
-
+if (! Array.prototype.contains) {
+    Array.prototype.contains = function(element) {
+        return this.indexOf(element) !== -1
+    }
+}

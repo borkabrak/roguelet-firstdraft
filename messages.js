@@ -1,12 +1,15 @@
 /*
  Messages()
    Display information to the user as text
+
 */
 
 "use strict";
 
 var Messages = function(container, config) {
     var my = this;
+
+    my.contents = [];
 
     my.config = jdc.makeconfig(config);
 
@@ -26,17 +29,31 @@ var Messages = function(container, config) {
     }
 }
 
-Messages.prototype.say = function(message) {
+Messages.prototype.say = function(text) {
     var my = this;
 
-    var paragraph = document.createElement("p");
-    paragraph.innerText = message;
+    var message = new Message(text);
+    my.contents.push(message);
+    my.container.appendChild(message.toHTML());
 
-    my.container.appendChild(paragraph);
+    return message;
 
+}
+
+Messages.prototype.add = Messages.prototype.say;
+
+Messages.prototype.notify = function(text) {
+    var my = this;
+
+    var msg = my.say(text);
+    setTimeout(function() {
+        msg.container.style.opacity = "0";
+        setTimeout(function() { msg.container.remove(); }, 1000);
+    }, 3000);
 }
 
 Messages.prototype.clear = function() {
     var my = this;
     my.container.innerText = "";
 }
+

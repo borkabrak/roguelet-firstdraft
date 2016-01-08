@@ -25,7 +25,7 @@ var Dungeon = function(container, config) {
     my.config = jdc.makeconfig(config, {
         height: 3,
         width:  3,
-
+        CSSWidth: "80%",
     });
 
     // Set container
@@ -42,6 +42,8 @@ var Dungeon = function(container, config) {
         my.container = container;
 
     }
+
+    my.container.style.width = my.config.CSSWidth;
 
     // Initialize the contents to an empty dungeon
     my.contents = my.empty();
@@ -60,7 +62,7 @@ Signatures:
 Dungeon.prototype.put = function(object, x, y) {
     var my = this;
 
-    var position = jdc.normalizePosition(x, y);
+    var position = my.normalizePosition(x, y);
 
     return my.contents[position.x][position.y].push(object);
 
@@ -77,7 +79,16 @@ Signatures:
 */
 Dungeon.prototype.at = function(x, y) {
     var my = this;
-    var position = jdc.normalizePosition(x, y);
+    var position = my.normalizePosition(x, y);
+
+    // If the location does not exist, the contents are necessarily undefined
+    if ( !  (
+            jdc.defined(dungeon.contents[position.x])
+            &&
+            jdc.defined(dungeon.contents[position.y])
+            )
+    ) return undefined;
+
     return dungeon.contents[position.x][position.y];
 
 }
@@ -172,7 +183,7 @@ removeFrom(location)
 */
 Dungeon.prototype.removeFrom = function(x, y) {
     var my = this
-    var position = jdc.normalizePosition(x, y)
+    var position = my.normalizePosition(x, y)
     return my.at(position).clear()
 }
 
@@ -211,12 +222,55 @@ Dungeon.prototype.move = function(object, x, y) {
 
     }
 
+    // NOTE: It might be good to have a function to return a validated address
+    //       Maybe add this functionality to normalizeAddress(), and call it to get the target?
+    //
     // Adjust for out-of-bounds attempted moves
-    if (x < 0) x = 0;
-    if (x >= my.config.width) x = my.config.width - 1;
-    if (y < 0) y = 0;
-    if (y >= my.config.height) y = my.config.height - 1;
+    if (! my.at(x,y) ) { // Does target location exist?
+        switch(true) {
+            case (x < 0):
+                x = 0
+                break;
+            case (x >= my.config.width):
+                x = my.config.width - 1
+                break;
+            case (y < 0):
+                y = 0
+                break;
+            case (y >= my.config.height):
+                y = my.config.height - 1
+                break;
+        }
+        messages.notify("Out of bounds!");
+    }
 
     return my.remove(object) ? my.put(object, x, y) : undefined;
+
+}
+
+/*
+normalizePosition()
+    Allow flexible expression of a dungeon location either as a single
+    object with x and y properties, or as two values indicating x and y
+    separately.
+
+    Returns one object with corresponding x and y properties.
+*/
+Dungeon.prototype.normalizePosition = function(arg1, arg2) {
+
+    if (typeof arg1 === "undefined") { return { x: undefined, y: undefined} }
+
+    if (typeof arg1.x !== "undefined" && typeof arg1.y !== "undefined") {
+        // arg1 has both x and y properties
+        return { x: arg1.x, y: arg1.y };
+    }
+
+    if (typeof arg1 === "number" && typeof arg2 === "number"){
+        // arg1 and arg2 are both numbers.  Use them as x and y, respectively.
+        return { x: arg1, y: arg2 }
+    }
+
+    console.error("normalizePosition(): I Don't know how to interpret these arguments as dungeon coordinates: (%o, %o)", arg1, arg2);
+    return null;
 
 }

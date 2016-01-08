@@ -22,3 +22,5 @@ body {
       padding: 5%;
       font-family: Raleway, monospace;
       color: whitesmoke; }
+      body #playarea #messages .message {
+        transition: 2s; }
